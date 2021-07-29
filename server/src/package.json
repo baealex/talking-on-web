@@ -8,8 +8,9 @@
     "screen-build": "cd screen && npm run deploy && cd ..",
     "screen-dev": "nodemon --watch screen/components --watch screen/modules --watch screen/pages --watch screen/styles --watch screen/public --watch screen/state --ext tsx,ts --delay 3 --exec npm run screen-build",
     "server-dev": "nodemon --watch src --delay 1 --exec ts-node src/index.ts",
+    "server-build": "tsc",
     "dev": "concurrently \"npm run server-dev\" \"npm run screen-dev\"",
-    "start": "npm run screen-init && tsc && node dist"
+    "start": "node dist"
   },
   "repository": {
     "type": "git",
