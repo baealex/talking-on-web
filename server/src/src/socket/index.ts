@@ -45,6 +45,9 @@ export default function socketManager(io: Server) {
         console.log(`USER CONNECTED : ${id}`)
 
         const disconnect = () => {
+            if (!user) {
+                return;
+            }
             const roomUsers = roomsMap.get(roomName) || []
             const leftUsers = roomUsers.filter(roomUser => roomUser.socket.id != id)
             if (leftUsers.length > 0) {
@@ -53,6 +56,9 @@ export default function socketManager(io: Server) {
                     roomUser.socket.emit('send-message', {
                         profile: null,
                         text: `😥 ${user.profile.name} 퇴장`,
+                    })
+                    roomUser.socket.emit('room-infomation', {
+                        users: leftUsers.length,
                     })
                 })
             } else {
@@ -93,6 +99,9 @@ export default function socketManager(io: Server) {
                 roomUser.socket.emit('send-message', {
                     profile: null,
                     text: `🎉 ${user.profile.name} 등장`,
+                })
+                roomUser.socket.emit('room-infomation', {
+                    users: roomUsers.length,
                 })
             })
             roomsMap.set(room, roomUsers)

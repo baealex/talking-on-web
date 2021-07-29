@@ -7,11 +7,12 @@ import {
 } from 'react'
 
 import socket from '@modules/socket'
-import { roomState } from '@state/room'
 import {
     InputChat,
     Message,
     MessageProps,
+    RoomInfo,
+    RoomInfoProps,
 } from '@components/page-room'
 
 // TOOD: socket types로 재활용
@@ -28,17 +29,23 @@ export default function Home() {
 
     const [ _, setProfile ] = useState<Profile | null>()
     const [ messages, setMessages ] = useState<MessageProps[]>([])
+    const [ roomInfo, setRoomInfo ] = useState<RoomInfoProps>({
+        users: 0,
+    });
     const [ text, setText ] = useState('')
 
     useEffect(() => {
-        if (!roomState.state.room) {
+        const name = location.search.split('name=')[1];
+        if (!name) {
             router.push('/')
             return;
         }
 
-        socket.emit('enter-the-room', roomState.state.room)
+        socket.emit('enter-the-room', name)
         socket.once('room-is-full', () => {
-            router.push('/')
+            router.push('/').then(() => {
+                alert('😥 사용자가 가득 찾습니다.')
+            })
             return
         })
         socket.once('assign-username', (profile: Profile) => {
@@ -47,6 +54,9 @@ export default function Home() {
         socket.on('send-message', (message: MessageProps) => {
             setMessages((prevMessages) => prevMessages.concat(message))
             window.scrollTo(0, document.body.scrollHeight)
+        })
+        socket.on('room-infomation', (infomation: RoomInfoProps) => {
+            setRoomInfo(infomation);
         })
         
         return () => {
@@ -65,6 +75,7 @@ export default function Home() {
     
     return (
         <>
+            <RoomInfo {...roomInfo}/>
             <div className="chat-box">
                 {messages.map(message => (
                     <Message {...message}/>
@@ -79,6 +90,7 @@ export default function Home() {
             />
             <style jsx>{`
                 .chat-box {
+                    padding-top: 60px;
                     padding-bottom: 60px;
                     margin: 1rem 0;
                 }

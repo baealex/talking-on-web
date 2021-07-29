@@ -9,17 +9,18 @@ import {
     InputRoom,
 } from '@components/page-index';
 
-import { roomState } from '@state/room'
-
 export default function Home() {
     const router = useRouter()
     
     const [ roomName, setRoomName ] = useState('')
     
     const handleClick = useCallback(() => {
-        roomState.setState({
-            room: roomName,
-        }).then(() => router.push('/room'))
+        router.push({
+            pathname: '/room',
+            query: {
+                name: roomName,
+            }
+        })
     }, [roomName])
 
     return (
