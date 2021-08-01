@@ -52,7 +52,11 @@ export default function Home() {
             setProfile(profile)
         })
         socket.on('send-message', (message: MessageProps) => {
-            setMessages((prevMessages) => prevMessages.concat(message))
+            const time = new Date();
+            setMessages((prevMessages) => prevMessages.concat({
+                ...message,
+                time: `${time.getHours()}:${time.getMinutes()}`,
+            }))
             window.scrollTo(0, document.body.scrollHeight)
         })
         socket.on('room-infomation', (infomation: RoomInfoProps) => {

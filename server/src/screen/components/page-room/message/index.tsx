@@ -14,6 +14,7 @@ interface Profile {
 export interface MessageProps {
     profile?: Profile;
     text: string;
+    time: string;
 }
 
 export function Message(props: MessageProps) {
@@ -26,7 +27,8 @@ export function Message(props: MessageProps) {
                     </div>
                     <div className={cn('text')}>
                         <p className={cn('username')}>
-                            {props.profile.name}
+                            <span>{props.profile.name}</span>
+                            <time>{props.time}</time>
                         </p>
                         <Card isRounded className="p-3">
                             <p>{props.text}</p>
