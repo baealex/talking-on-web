@@ -86,7 +86,7 @@ export default function Home() {
                 ))}
             </div>
             <InputChat
-                ref={input}
+                refer={input}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 buttonText="Send"

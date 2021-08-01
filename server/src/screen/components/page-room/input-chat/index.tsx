@@ -5,7 +5,7 @@ const cn = classNames.bind(styles);
 import { useCallback } from 'react';
 
 export interface InputChatProps {
-    ref?: React.LegacyRef<HTMLInputElement>;
+    refer?: React.LegacyRef<HTMLInputElement>;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     buttonText: string;
@@ -24,7 +24,7 @@ export function InputChat(props: InputChatProps) {
             <div className="container">
                 <div className={cn('input-group')}>
                     <input
-                        ref={props.ref}
+                        ref={props.refer}
                         value={props.value}
                         onChange={props.onChange}
                         onKeyPress={(e) => e.key === 'Enter' && handleClick()}
