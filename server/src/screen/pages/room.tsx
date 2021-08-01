@@ -27,20 +27,23 @@ export default function Home() {
     useEffect(() => {
         const name = location.search.split('name=')[1];
         if (!name) {
-            router.push('/')
+            router.push('/');
             return;
         }
 
         socket.emit('enter-the-room', name)
+
         socket.once('room-is-full', () => {
             router.push('/').then(() => {
                 alert('😥 사용자가 가득 찾습니다.')
             })
             return
         })
+
         socket.once('assign-username', (profile: Profile) => {
             setProfile(profile)
         })
+
         socket.on('send-message', (message: MessageProps) => {
             const time = new Date();
             setMessages((prevMessages) => prevMessages.concat({
@@ -49,6 +52,7 @@ export default function Home() {
             }))
             window.scrollTo(0, document.body.scrollHeight)
         })
+        
         socket.on('room-infomation', (infomation: {
             users: Profile[]
         }) => {

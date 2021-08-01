@@ -37,9 +37,9 @@ export function RoomInfo(props: RoomInfoProps) {
             <div className={cn('side', { isOpen })}>
                 {props.users.map((user, idx) => (
                     <Card key={idx} isRounded className="p-3 mt-3">
-                        <div>
+                        <>
                             {user.name}
-                        </div>
+                        </>
                     </Card>
                 ))}
             </div>
